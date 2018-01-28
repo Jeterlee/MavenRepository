@@ -1,5 +1,6 @@
 ## MavenRepository
 项目说明：搭建的私人`Maven`仓库，存放个人项目的依赖包，使用github统一管理。
+
 原理说明：Github使用了`raw.githubusercontent.com`这个域名用于raw文件下载。
 
 
