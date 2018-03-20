@@ -1,0 +1,90 @@
+/**
+ * 以下开始是将Android Library上传到JitPack仓库的相关配置（使用android-maven插件）
+ *
+ *  author : jeterlee
+ *  website : https://github.com/jeterlee/android-dev-note/blob/master/android/open_source/os-project-publish.md
+ */
+
+apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
+
+// local properties（隐私内容，此文件不会上传）
+Properties properties = new Properties()
+File localPropertiesFile = project.file("local.properties");
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+
+// project properties（发布版本的一些信息，每个Android Library都需要配置）
+File projectPropertiesFile = project.file("project.properties");
+if (projectPropertiesFile.exists()) {
+    properties.load(projectPropertiesFile.newDataInputStream())
+}
+
+// read properties
+def user = properties.getProperty("bintray.user")
+
+def projectGroupId = properties.getProperty("project.groupId")
+def projectArtifactId = properties.getProperty("project.artifactId")
+def projectVersionName = android.defaultConfig.versionName
+def projectDesc = properties.getProperty("project.desc")
+def projectWebSite = properties.getProperty("project.webSite")
+
+def javadocName = properties.getProperty("javadoc.name")
+
+/**
+ * 以下为配置library注释在打包jar后保留
+ */
+
+// This generates sources.jar（打包源码jar，生成源文件）
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+// This generates configuration javadoc（生成javadoc文档）
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+}
+
+// This is javadoc configuration（配置javadoc）
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version projectVersionName
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title javadocName
+    }
+}
+
+// This generates javadoc.jar（打包文档jar，生成文档文件）
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// This copy javadoc（拷贝javadoc文件）
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
+}
+
+// 上传所需要的源码文件
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+/**
+ * jitpack configuration (use android-maven)
+ *
+ * - 1、classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+ * - 2、apply plugin: 'com.github.dcendents.android-maven'// 上传到JitPack仓库
+ * - 3、定义 group
+ *
+ * 使用 JitPack 仓库
+ */
+group = projectGroupId
