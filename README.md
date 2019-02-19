@@ -1,11 +1,11 @@
 ## MavenRepository
-- **项目说明**：搭建的私人`Maven`仓库，存放个人项目的依赖包，使用Github统一管理。
-- **原理说明**：Github使用了`raw.githubusercontent.com`这个域名用于raw文件下载。
+- **项目说明**：搭建的私人`Maven`仓库，存放个人项目的依赖包及一些通用的配置，使用`Github`统一管理。
+- **原理说明**：`Github`使用了`raw.githubusercontent.com`这个域名用于raw文件下载。
 - **使用说明**：使用自定义仓库的地址（见下面），在线式或离线式使用配置文件。
 
 
-## 如何添加依赖
-step1、添加自定义仓库的地址
+## 如何添加依赖包
+step1、在根`build.gradle`下添加自定义仓库的地址
 ```gradle
 repositories {  
     jcenter()
@@ -16,12 +16,21 @@ repositories {
 }
 ```
 
-step2、dependencies下增加需要添加的依赖
+step2、dependencies下增加需要添加的依赖包
 ```gradle
 dependencies{  
     implementation ...  
 } 
 ```
+
+
+## 如何添加依赖配置文件
+方法一、在线式，在需要的工程 build.gradle 中引入
+```gradle
+apply from "https://raw.githubusercontent.com/Jeterlee/MavenRepository/master/${name}.gradle"
+```
+
+方法二、离线式，下载下来，在需要的工程 build.gradle 中引入
 
 
 ## 参考资料
@@ -33,7 +42,7 @@ dependencies{
 
 ## License
 ```
-Copyright (c) 2017 - 2018, The Jeterlee authors 
+Copyright (c) 2017 - 2019, The jeterlee authors 
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
