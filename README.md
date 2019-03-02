@@ -4,6 +4,10 @@
 - **使用说明**：使用自定义仓库的地址（见下面），在线式或离线式使用配置文件。
 
 
+## 常用第三方仓库
+- [mvnrepository](https://mvnrepository.com/)
+
+
 ## 如何添加依赖包
 step1、在根`build.gradle`下添加自定义仓库的地址
 ```gradle
@@ -33,7 +37,7 @@ apply from "https://raw.githubusercontent.com/Jeterlee/MavenRepository/master/${
 方法二、离线式，下载下来，在需要的工程 build.gradle 中引入
 
 
-## 参考资料
+## Recommend
 - [**Android Studio 将github作为远程maven仓库（推荐阅读）**](http://blog.csdn.net/leilba/article/details/49367271)
 - [AndroidStudio使用进阶二：搭建自己的maven私服，并使用Gradle统一依赖管理](http://blog.csdn.net/jf_1994/article/details/51228560)
 - [基于Github搭建Maven仓库的方法](http://www.jianshu.com/p/3111bcf96cdf)
